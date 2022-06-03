@@ -1,11 +1,16 @@
 <template>
   <div class="service-catalog">
-    <h1>Services</h1>
-    <input
-      v-model="searchQuery"
-      class="search-input"
-      placeholder="Search services"
-    >
+    <div class="catalog-top">
+      <div class="catalog-top-left">
+        <h1 class="catalog-header">Services</h1>
+        <input
+          v-model="searchQuery"
+          class="search-input"
+          placeholder="Search services"
+        >
+      </div>
+      <AddNewServiceButton class="AddNewServiceButton" />
+    </div>
     <ul
       class="catalog"
     >
@@ -28,6 +33,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import useServices from '@/composables/useServices'
+import AddNewServiceButton from '@/components/AddNewServiceButton.vue'
 
 export default defineComponent({
   name: 'ServiceCatalog',
@@ -42,7 +48,11 @@ export default defineComponent({
       services,
       loading,
       searchQuery,
+      AddNewServiceButton,
     }
+  },
+  components: {
+    AddNewServiceButton,
   },
 })
 </script>
@@ -76,6 +86,38 @@ export default defineComponent({
   p {
     color: #666;
   }
+}
+
+.catalog-header {
+  width: 127.57px;
+  height: 28px;
+  font-size: 24px;
+  
+  /* blue-700 */
+  color: #0A2B66;
+}
+
+.search-input {
+  margin: auto;
+}
+
+.catalog-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 46px;
+  max-width: 1216px;
+}
+
+.catalog-top-left {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+
+.AddNewServiceButton {
+  margin: inherit;
 }
 
 input {
