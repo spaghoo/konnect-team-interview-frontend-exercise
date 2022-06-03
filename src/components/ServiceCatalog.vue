@@ -20,7 +20,7 @@
         class="service"
       >
         <div>
-          <ServiceCard :name="service.name" :description="service.description" />
+          <ServiceCard :name="service.name" :description="service.description" :versions="service.versions.length" />
         </div>
       </li>
     </ul>
@@ -46,8 +46,6 @@ export default defineComponent({
       services,
       loading,
       searchQuery,
-      AddNewServiceButton,
-      ServiceCard,
     }
   },
   components: {
