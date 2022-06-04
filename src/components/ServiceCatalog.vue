@@ -112,6 +112,10 @@ export default defineComponent({
   }
 }
 
+.service:hover {
+  border: 1px solid rgba(166, 198, 255, 1);
+}
+
 .catalog-header {
   width: 127.57px;
   height: 28px;
