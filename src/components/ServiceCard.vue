@@ -56,3 +56,9 @@ export default defineComponent({
 	
 	
 </script>
+
+<style>
+	.card {
+		justify-content: space-between;
+	}
+</style>
