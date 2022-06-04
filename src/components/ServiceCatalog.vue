@@ -20,10 +20,7 @@
         class="service"
       >
         <div>
-          <p>
-            {{ service.name }}
-          </p>
-          <p>{{ service.description }}</p>
+          <ServiceCard :name="service.name" :description="service.description" :versions="service.versions.length" />
         </div>
       </li>
     </ul>
@@ -34,6 +31,7 @@
 import { defineComponent, ref } from 'vue'
 import useServices from '@/composables/useServices'
 import AddNewServiceButton from '@/components/AddNewServiceButton.vue'
+import ServiceCard from '@/components/ServiceCard.vue'
 
 export default defineComponent({
   name: 'ServiceCatalog',
@@ -48,11 +46,11 @@ export default defineComponent({
       services,
       loading,
       searchQuery,
-      AddNewServiceButton,
     }
   },
   components: {
     AddNewServiceButton,
+    ServiceCard,
   },
 })
 </script>
