@@ -11,19 +11,29 @@
       </div>
       <AddNewServiceButton class="AddNewServiceButton" />
     </div>
-    <ul
-      class="catalog"
-    >
-      <li
-        v-for="service in searchServiceResults"
-        :key="service.id"
-        class="service"
-      >
-        <div>
-          <ServiceCard :name="service.name" :description="service.description" :versions="service.versions.length" />
-        </div>
-      </li>
-    </ul>
+    <div v-if="services.length != 0">
+      <div v-if="searchServiceResults.length != 0">
+        <ul
+          class="catalog"
+        >
+          <li
+            v-for="service in searchServiceResults"
+            :key="service.id"
+            class="service"
+          >
+            <div>
+              <ServiceCard :name="service.name" :description="service.description" :versions="service.versions.length" />
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div v-else>
+        <h2 style="color: #0A2B66; text-align: center">NO RESULTS TO YOUR QUERY</h2>
+      </div>
+    </div>
+    <div v-else>
+      <h2 style="color: #0A2B66; text-align: center">NO RESULTS TO YOUR API CALL</h2>
+    </div>
   </div>
 </template>
 
@@ -42,7 +52,7 @@ export default defineComponent({
     // Set the search string to a Vue ref
     const searchQuery = ref('')
     
-    console.log(searchQuery.length)
+    console.log(services)
     
     
 
