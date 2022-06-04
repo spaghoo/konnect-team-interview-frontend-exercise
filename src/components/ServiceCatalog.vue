@@ -15,7 +15,7 @@
       class="catalog"
     >
       <li
-        v-for="service in services"
+        v-for="service in searchServiceResults"
         :key="service.id"
         class="service"
       >
@@ -41,6 +41,10 @@ export default defineComponent({
 
     // Set the search string to a Vue ref
     const searchQuery = ref('')
+    
+    console.log(searchQuery.length)
+    
+    
 
     return {
       services,
@@ -52,6 +56,28 @@ export default defineComponent({
     AddNewServiceButton,
     ServiceCard,
   },
+  computed: {
+    searchServiceResults: function () {
+        var names = this.services;
+        
+        var localSearchQuery = this.searchQuery
+        
+        //doesnt run the search if nothing is in the search bar or if only one letter is
+        
+        if(!localSearchQuery || localSearchQuery.length < 2){
+          return names;
+        }
+        //trims to lowercase for case insensitive search
+        var localSearchQuery = localSearchQuery.trim().toLowerCase();
+        
+        names = names.filter(function(item){
+          if(item.name.toLowerCase().indexOf(localSearchQuery) !== -1){
+            return item
+          }
+        })
+        return names
+    }
+  }
 })
 </script>
 
