@@ -35,6 +35,8 @@
       <h2 style="color: #0A2B66; text-align: center">NO RESULTS TO YOUR API CALL</h2>
     </div>
   </div>
+  <button v-on:click="changePage(pageNumber - 1)" :disabled="pageNumber <= 1">previous</button>
+  <button v-on:click="changePage(pageNumber + 1)" :disabled="pageNumber >= getMaxPages">next</button>
 </template>
 
 <script lang="ts">
@@ -42,6 +44,8 @@ import { defineComponent, ref } from 'vue'
 import useServices from '@/composables/useServices'
 import AddNewServiceButton from '@/components/AddNewServiceButton.vue'
 import ServiceCard from '@/components/ServiceCard.vue'
+import Pagination from '@/components/Pagination.vue'
+import { KPagination } from '@kong/kongponents'
 
 export default defineComponent({
   name: 'ServiceCatalog',
@@ -52,19 +56,26 @@ export default defineComponent({
     // Set the search string to a Vue ref
     const searchQuery = ref('')
     
-    console.log(services)
-    
+    const pageNumber = ref(1)
     
 
     return {
       services,
       loading,
       searchQuery,
+      pageNumber,
     }
   },
   components: {
     AddNewServiceButton,
     ServiceCard,
+    KPagination,
+  },
+  methods: {
+    changePage(page) {
+      console.log(page)
+      this.pageNumber = page;
+    }
   },
   computed: {
     searchServiceResults: function () {
@@ -75,7 +86,7 @@ export default defineComponent({
         //doesnt run the search if nothing is in the search bar or if only one letter is
         
         if(!localSearchQuery || localSearchQuery.length < 2){
-          return names;
+          return names.slice(this.getCurrentSlice-12,this.getCurrentSlice);
         }
         //trims to lowercase for case insensitive search
         var localSearchQuery = localSearchQuery.trim().toLowerCase();
@@ -85,9 +96,17 @@ export default defineComponent({
             return item
           }
         })
-        return names
+        return names.slice(this.getCurrentSlice-12,this.getCurrentSlice)
+    },
+    getCurrentSlice: function () {
+        return this.pageNumber * 12;
+    },
+    getMaxPages: function () {
+      
+        let maxNum = this.services.length / 12
+        return Math.ceil(maxNum)
     }
-  }
+  },
 })
 </script>
 
