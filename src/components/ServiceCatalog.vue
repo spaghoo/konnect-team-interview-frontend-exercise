@@ -34,9 +34,16 @@
     <div v-else>
       <h2 style="color: #0A2B66; text-align: center">NO RESULTS TO YOUR API CALL</h2>
     </div>
+    <div class="pagination-row">
+      <button
+      v-on:click.native="changePage(pageNumber - 1)" 
+      v-bind:disabled="pageNumber <= 1"><KIcon icon="arrowLeft" /></button>
+      <button
+      v-on:click.native="changePage(pageNumber + 1)" 
+      v-bind:disabled="pageNumber >= getMaxPages"><KIcon icon="arrowRight" /></button>
+    </div>
   </div>
-  <button v-on:click="changePage(pageNumber - 1)" :disabled="pageNumber <= 1">previous</button>
-  <button v-on:click="changePage(pageNumber + 1)" :disabled="pageNumber >= getMaxPages">next</button>
+  
 </template>
 
 <script lang="ts">
@@ -46,6 +53,8 @@ import AddNewServiceButton from '@/components/AddNewServiceButton.vue'
 import ServiceCard from '@/components/ServiceCard.vue'
 import Pagination from '@/components/Pagination.vue'
 import { KPagination } from '@kong/kongponents'
+import PaginationButtons from '@/components/PaginationButtons.vue'
+import { KIcon } from '@kong/kongponents'
 
 export default defineComponent({
   name: 'ServiceCatalog',
@@ -70,6 +79,8 @@ export default defineComponent({
     AddNewServiceButton,
     ServiceCard,
     KPagination,
+    PaginationButtons,
+    KIcon
   },
   methods: {
     changePage(page) {
