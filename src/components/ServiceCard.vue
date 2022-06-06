@@ -5,18 +5,18 @@ Settled on 25 and 90 respectively. */
 
 <template>
 	<div class="card">
-		<div v-if="name.length < 20">
-			<h3>{{name}}</h3>
+		<div v-if="name.length < 22">
+			<h4>{{name}}</h4>
 		</div>
 		<div v-else>
-			<h3>{{name.substring(0,20) + "..."}}</h3>
+			<h4>{{name.substring(0,22) + "..."}}</h4>
 		</div>
 		
 		
-		<div v-if="description.length < 90">
+		<div class="card-description" v-if="description.length < 90">
 			<p>{{description}}</p>
 		</div>
-		<div v-else>
+		<div class="card-description" v-else>
 			<p>{{description.substring(0,90) + "..."}}</p>
 		</div>
 		
@@ -59,6 +59,15 @@ export default defineComponent({
 
 <style>
 	.card {
+		display: flex;
+		flex-direction: column;
 		justify-content: space-between;
+		height: 250px;
+	}
+	h4 {
+		color: #1456CB;
+	}
+	.card-description {
+		color: rgba(0, 0, 0, 0.45);
 	}
 </style>

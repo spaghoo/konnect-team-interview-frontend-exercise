@@ -28,6 +28,7 @@
 	left: calc(50% - 145px/2 + 399.5px);
 	top: calc(50% - 35px/2 - 372.5px);
 	border: none;
+	border-radius: 4px;
 }
 		
 </style>

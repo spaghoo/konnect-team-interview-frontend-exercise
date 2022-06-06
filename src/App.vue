@@ -2,8 +2,14 @@
   <header>
     <div class="nav">
       <router-link to="/">
-        Home
+        KONNECT
       </router-link>
+      <div class="nav-icons">
+        <KIcon icon="notificationBell" />
+        <KIcon icon="gear" size="24" />
+        <KIcon icon="profile" size="30"/>
+        </div>
+      
     </div>
   </header>
   <main>
@@ -14,10 +20,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { RouterView } from 'vue-router'
+import { KIcon } from '@kong/kongponents'
 
 export default defineComponent({
   name: 'App',
-  components: { RouterView },
+  components: { 
+    RouterView, 
+    KIcon 
+  },
 })
 </script>
 
@@ -40,14 +50,22 @@ body {
   padding: 16px;
   margin-bottom: 4rem;
   border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
 
   a {
     font-weight: 700;
     color: blue;
 
     &.router-link-exact-active {
-      color: green;
+      color: #0A2B66;
+      text-decoration: none;
+      font-size: 3rem;
     }
   }
+}
+
+.nav-icons {
+  padding: 0 18px;
 }
 </style>

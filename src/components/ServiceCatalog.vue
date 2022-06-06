@@ -11,20 +11,62 @@
       </div>
       <AddNewServiceButton class="AddNewServiceButton" />
     </div>
-    <ul
-      class="catalog"
-    >
-      <li
-        v-for="service in services"
-        :key="service.id"
-        class="service"
-      >
-        <div>
-          <ServiceCard :name="service.name" :description="service.description" :versions="service.versions.length" />
-        </div>
-      </li>
-    </ul>
+    <div v-if="services.length != 0">
+      <div v-if="searchServiceResults.length != 0">
+        <ul
+          class="catalog"
+        >
+          <li
+            v-for="service in searchServiceResults"
+            :key="service.id"
+            class="service"
+          >
+            <div>
+              <ServiceCard :name="service.name" :description="service.description" :versions="service.versions.length" />
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div v-else>
+        <h2 style="color: #0A2B66; text-align: center">NO RESULTS TO YOUR QUERY</h2>
+      </div>
+    </div>
+    <div v-else>
+      <h2 style="color: #0A2B66; text-align: center">NO RESULTS TO YOUR API CALL</h2>
+    </div>
+    <div class="pagination-row">
+      <div v-if="pageNumber <= 1">
+        <button
+        class="pagination-button"
+        v-on:click.native="changePage(pageNumber - 1)" 
+        v-bind:disabled="pageNumber <= 1"><KIcon icon="arrowLeft" color="grey" /></button>
+      </div>
+      <div v-else>
+        <button
+        class="pagination-button"
+        v-on:click.native="changePage(pageNumber - 1)" 
+        v-bind:disabled="pageNumber <= 1"><KIcon icon="arrowLeft" color="#1456CB" /></button>
+      </div>
+      <PaginationNumbers
+        :currentPage="pageNumber"
+        :maxPages="getMaxPages"
+        :itemsPerPage="12"
+        :totalItems="services.length -1" />
+      <div v-if="pageNumber >= getMaxPages">
+        <button
+        class="pagination-button"
+        v-on:click.native="changePage(pageNumber + 1)" 
+        v-bind:disabled="pageNumber >= getMaxPages"><KIcon icon="arrowRight" color="grey" /></button>
+      </div>
+      <div v-else>
+        <button
+        class="pagination-button"
+        v-on:click.native="changePage(pageNumber + 1)" 
+        v-bind:disabled="pageNumber >= getMaxPages"><KIcon icon="arrowRight" color="#1456CB" /></button>
+      </div>
+    </div>
   </div>
+  
 </template>
 
 <script lang="ts">
@@ -32,6 +74,10 @@ import { defineComponent, ref } from 'vue'
 import useServices from '@/composables/useServices'
 import AddNewServiceButton from '@/components/AddNewServiceButton.vue'
 import ServiceCard from '@/components/ServiceCard.vue'
+import Pagination from '@/components/Pagination.vue'
+import { KPagination } from '@kong/kongponents'
+import PaginationNumbers from '@/components/PaginationNumbers.vue'
+import { KIcon } from '@kong/kongponents'
 
 export default defineComponent({
   name: 'ServiceCatalog',
@@ -41,16 +87,59 @@ export default defineComponent({
 
     // Set the search string to a Vue ref
     const searchQuery = ref('')
+    
+    const pageNumber = ref(1)
+    
 
     return {
       services,
       loading,
       searchQuery,
+      pageNumber,
     }
   },
   components: {
     AddNewServiceButton,
     ServiceCard,
+    KPagination,
+    PaginationNumbers,
+    KIcon
+  },
+  methods: {
+    changePage(page) {
+      console.log(page)
+      this.pageNumber = page;
+    }
+  },
+  computed: {
+    searchServiceResults: function () {
+        var names = this.services;
+        
+        var localSearchQuery = this.searchQuery
+        
+        //doesnt run the search if nothing is in the search bar or if only one letter is
+        
+        if(!localSearchQuery || localSearchQuery.length < 2){
+          return names.slice(this.getCurrentSlice-12,this.getCurrentSlice);
+        }
+        //trims to lowercase for case insensitive search
+        var localSearchQuery = localSearchQuery.trim().toLowerCase();
+        
+        names = names.filter(function(item){
+          if(item.name.toLowerCase().indexOf(localSearchQuery) !== -1){
+            return item
+          }
+        })
+        return names.slice(this.getCurrentSlice-12,this.getCurrentSlice)
+    },
+    getCurrentSlice: function () {
+        return this.pageNumber * 12;
+    },
+    getMaxPages: function () {
+      
+        let maxNum = this.services.length / 12
+        return Math.ceil(maxNum)
+    }
   },
 })
 </script>
@@ -60,6 +149,23 @@ export default defineComponent({
   max-width: 1366px;
   margin: 2rem auto;
   padding: 0 20px;
+}
+.pagination-row {
+  padding: 10px 0px;
+  display: flex;
+  justify-content: space-around
+}
+.pagination-button {
+  background-color: white;
+  border-radius: 50%;
+  border: 1px solid #1456CB;
+  padding: 10px;
+}
+.pagination-button:disabled {
+  background-color: white;
+  border-radius: 50%;
+  border: 1px solid grey;
+  padding: 10px;
 }
 
 .catalog {
@@ -84,6 +190,10 @@ export default defineComponent({
   p {
     color: #666;
   }
+}
+
+.service:hover {
+  border: 1px solid rgba(166, 198, 255, 1);
 }
 
 .catalog-header {
