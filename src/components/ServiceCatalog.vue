@@ -47,6 +47,11 @@
         v-on:click.native="changePage(pageNumber - 1)" 
         v-bind:disabled="pageNumber <= 1"><KIcon icon="arrowLeft" color="#1456CB" /></button>
       </div>
+      <PaginationNumbers
+        :currentPage="pageNumber"
+        :maxPages="getMaxPages"
+        :itemsPerPage="12"
+        :totalItems="services.length -1" />
       <div v-if="pageNumber >= getMaxPages">
         <button
         class="pagination-button"
@@ -71,7 +76,7 @@ import AddNewServiceButton from '@/components/AddNewServiceButton.vue'
 import ServiceCard from '@/components/ServiceCard.vue'
 import Pagination from '@/components/Pagination.vue'
 import { KPagination } from '@kong/kongponents'
-import PaginationButtons from '@/components/PaginationButtons.vue'
+import PaginationNumbers from '@/components/PaginationNumbers.vue'
 import { KIcon } from '@kong/kongponents'
 
 export default defineComponent({
@@ -97,7 +102,7 @@ export default defineComponent({
     AddNewServiceButton,
     ServiceCard,
     KPagination,
-    PaginationButtons,
+    PaginationNumbers,
     KIcon
   },
   methods: {
