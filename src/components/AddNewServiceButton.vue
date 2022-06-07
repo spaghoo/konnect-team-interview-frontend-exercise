@@ -7,26 +7,15 @@
 .add-new-services-button {
 	color: #FFF;
 	background-color: #1456CB;
-	
-	width: 121px;
-	height: 19px;
-	/* identical to box height */
-	
-	/* white */
 	color: #FFFFFF;
-	font-size: 16px;
-	
-	
+	font-size: 20px;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	padding: 2px 8px;
+	padding: 2px 18px;
 	gap: 16px;
-	
-	width: 145px;
-	height: 35px;
-	left: calc(50% - 145px/2 + 399.5px);
-	top: calc(50% - 35px/2 - 372.5px);
+	width: 195px;
+	height: 45px;
 	border: none;
 	border-radius: 4px;
 }

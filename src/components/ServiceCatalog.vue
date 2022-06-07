@@ -146,12 +146,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .service-catalog {
-  max-width: 1366px;
+  max-width: 1250px;
   margin: 2rem auto;
   padding: 0 20px;
 }
 .pagination-row {
-  padding: 10px 0px;
+  padding: 20px 0px;
   display: flex;
   justify-content: space-around
 }
@@ -171,12 +171,14 @@ export default defineComponent({
 .catalog {
   display: flex;
   flex-wrap: wrap;
-  margin: 20px 0 0 0;
+  justify-content: center;
+  margin: 20px 20px 0 0;
   list-style: none;
 }
 
 .service {
-  width: 200px;
+  width: 250px;
+  height: 240px;
   margin: 6px;
   border: 1px solid #999;
   border-radius: 10px;
@@ -199,7 +201,7 @@ export default defineComponent({
 .catalog-header {
   width: 127.57px;
   height: 28px;
-  font-size: 24px;
+  font-size: 30px;
   
   /* blue-700 */
   color: #0A2B66;

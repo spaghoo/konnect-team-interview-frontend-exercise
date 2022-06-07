@@ -5,11 +5,11 @@ Settled on 25 and 90 respectively. */
 
 <template>
 	<div class="card">
-		<div v-if="name.length < 22">
+		<div v-if="name.length < 25">
 			<h4>{{name}}</h4>
 		</div>
 		<div v-else>
-			<h4>{{name.substring(0,22) + "..."}}</h4>
+			<h4>{{name.substring(0,25) + "..."}}</h4>
 		</div>
 		
 		

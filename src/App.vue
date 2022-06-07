@@ -5,9 +5,9 @@
         KONNECT
       </router-link>
       <div class="nav-icons">
-        <KIcon icon="notificationBell" />
-        <KIcon icon="gear" size="24" />
-        <KIcon icon="profile" size="30"/>
+        <KIcon icon="notificationBell" style="padding: 14px;"/>
+        <KIcon icon="info" size="24" style="padding: 14px;"/>
+        <KIcon icon="profile" size="30" style="padding: 14px;"/>
         </div>
       
     </div>
@@ -66,6 +66,6 @@ body {
 }
 
 .nav-icons {
-  padding: 0 18px;
+  padding: 0 36px;
 }
 </style>
