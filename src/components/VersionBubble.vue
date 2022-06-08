@@ -31,13 +31,13 @@ export default defineComponent({
 		
 		background: #FFF;
 		border: 1px solid #1456CB;
-		-webkit-border-radius: 40%;
 		color: #1456CB;
 		font-weight: bold;
 		text-align: center;
 		line-height: 0;
-		width: 30px;
 		position: absolute;
+		border-radius: 1000px;
+		padding: 0px 14px;
 		
 	}
 	
@@ -49,7 +49,7 @@ export default defineComponent({
 	}
 	
 	.version-bubble-text {
-		padding: 0px 45px;
+		padding: 0px 55px;
 	}
 	
 </style>

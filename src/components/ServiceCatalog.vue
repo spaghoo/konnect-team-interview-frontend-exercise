@@ -6,7 +6,7 @@
         <input
           v-model="searchQuery"
           class="search-input"
-          placeholder="Search services"
+          placeholder="Search"
         >
       </div>
       <AddNewServiceButton class="AddNewServiceButton" />
@@ -86,16 +86,16 @@ export default defineComponent({
     const { services, loading } = useServices()
 
     // Set the search string to a Vue ref
-    const searchQuery = ref('')
     
     const pageNumber = ref(1)
-    
+    const debouncedInput = ref('')
+    const timeout = null
 
     return {
       services,
       loading,
-      searchQuery,
       pageNumber,
+      debouncedInput,
     }
   },
   components: {
@@ -109,9 +109,20 @@ export default defineComponent({
     changePage(page) {
       console.log(page)
       this.pageNumber = page;
-    }
+    },
   },
   computed: {
+    searchQuery: {
+      get() {
+        return this.debouncedInput
+      },
+      set(passedValue) {
+        if (this.timeout) clearTimeout(this.timeout)
+          this.timeout = setTimeout(() => {
+            this.debouncedInput = passedValue
+          }, 300)
+        }
+    },
     searchServiceResults: function () {
         var names = this.services;
         
@@ -130,6 +141,7 @@ export default defineComponent({
             return item
           }
         })
+        
         return names.slice(this.getCurrentSlice-12,this.getCurrentSlice)
     },
     getCurrentSlice: function () {
@@ -180,8 +192,8 @@ export default defineComponent({
   width: 250px;
   height: 240px;
   margin: 6px;
-  border: 1px solid #999;
-  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
   padding: 8px 16px;
 
   p:first-of-type {
@@ -231,6 +243,15 @@ export default defineComponent({
 }
 
 input {
-  padding: 8px 4px;
+  display: block;
+  width: 195px;
+  padding: 10px 45px;
+  background: url("../images/searchIcon.svg") no-repeat 15px center;
+  background-size: 15px 15px;
+  font-size: 16px;
+  border: grey solid 1px;
+}
+.search-input {
+  
 }
 </style>

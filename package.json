@@ -24,6 +24,7 @@
   "dependencies": {
     "@kong/kongponents": "^7.0.0-beta.43",
     "axios": "^0.27.2",
+    "lodash": "^4.17.21",
     "pinia": "^2.0.14",
     "vue": "^3.2.35",
     "vue-router": "^4.0.15"
