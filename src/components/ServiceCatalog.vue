@@ -121,7 +121,6 @@ export default defineComponent({
   methods: {
     changePage(page) {
       this.pageNumber = page;
-      console.log(this.pageNumber)
     },
   },
   computed: {
