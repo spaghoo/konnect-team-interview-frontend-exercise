@@ -15,10 +15,6 @@ import { KIcon } from '@kong/kongponents'
 export default defineComponent({
 	name: 'PaginationButtons',
 	props: {
-		disabled : {
-			type: Boolean,
-			default: false	
-		},
 		direction : {
 			type: Boolean,
 			required: true,

@@ -80,8 +80,6 @@ import { defineComponent, ref } from 'vue'
 import useServices from '@/composables/useServices'
 import AddNewServiceButton from '@/components/AddNewServiceButton.vue'
 import ServiceCard from '@/components/ServiceCard.vue'
-import Pagination from '@/components/Pagination.vue'
-import { KPagination } from '@kong/kongponents'
 import PaginationNumbers from '@/components/PaginationNumbers.vue'
 import { KIcon } from '@kong/kongponents'
 
@@ -114,7 +112,6 @@ export default defineComponent({
   components: {
     AddNewServiceButton,
     ServiceCard,
-    KPagination,
     PaginationNumbers,
     KIcon
   },
@@ -136,7 +133,7 @@ export default defineComponent({
         }
     },
     searchServiceResults: function () {
-        var names = this.services;
+        var localServices = this.services;
         
         var localSearchQuery = this.searchQuery
         
@@ -147,7 +144,7 @@ export default defineComponent({
               this.justSearched = !this.justSearched
               this.pageNumber = this.storedPageNumber
           }
-          return names
+          return localServices
         }
         //trims to lowercase for case insensitive search
         var localSearchQuery = localSearchQuery.trim().toLowerCase();
@@ -159,18 +156,13 @@ export default defineComponent({
             this.justSearched = !this.justSearched
         }
         
-        names = names.filter(function(item){
+        localServices = localServices.filter(function(item){
           if(item.name.toLowerCase().indexOf(localSearchQuery) !== -1){
             return item
           }
         })
         
-        
-        if (names.length <= 12) {
-            return names
-        }
-        
-        return names
+        return localServices
     },
     paginatedResults: function () {;
       return this.searchServiceResults.slice(this.getCurrentSlice-this.itemsPerPage,this.getCurrentSlice);
