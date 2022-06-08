@@ -8,7 +8,7 @@
 	</div>
 	</div>
 </template>
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 import { RouterView } from 'vue-router'
 import { KIcon } from '@kong/kongponents'
