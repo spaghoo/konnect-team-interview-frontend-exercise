@@ -11,28 +11,34 @@
       </div>
       <AddNewServiceButton class="AddNewServiceButton" />
     </div>
-    <div v-if="services.length != 0">
-      <div v-if="searchServiceResults.length != 0">
-          <ul
-            class="catalog"
-          >
-            <li
-              v-for="service in paginatedResults"
-              :key="service.id"
-              class="service"
-            >
-              <div>
-                <ServiceCard :name="service.name" :description="service.description" :versions="service.versions.length" />
-              </div>
-            </li>
-          </ul>
-      </div>
-      <div v-else>
-        <h2 style="color: #0A2B66; text-align: center">NO RESULTS TO YOUR QUERY</h2>
-      </div>
+    <div v-if="loading" class="loading">
+      <h1 style="color: #0A2B66">DATA LOADING</h1>
+      <KIcon icon="spinner" colo="#0A2B66" size="300" />
     </div>
     <div v-else>
-      <h2 style="color: #0A2B66; text-align: center">NO RESULTS TO YOUR API CALL</h2>
+      <div v-if="services.length != 0">
+        <div v-if="searchServiceResults.length != 0">
+            <ul
+              class="catalog"
+            >
+              <li
+                v-for="service in paginatedResults"
+                :key="service.id"
+                class="service"
+              >
+                <div>
+                  <ServiceCard :name="service.name" :description="service.description" :versions="service.versions.length" />
+                </div>
+              </li>
+            </ul>
+        </div>
+        <div v-else>
+          <h2 style="color: #0A2B66; text-align: center">NO RESULTS TO YOUR QUERY</h2>
+        </div>
+      </div>
+      <div v-else>
+        <h2 style="color: #0A2B66; text-align: center">NO RESULTS TO YOUR API CALL</h2>
+      </div>
     </div>
     <div class="pagination-row">
       <div v-if="pageNumber <= 1">
@@ -280,7 +286,7 @@ input {
   font-size: 16px;
   border: grey solid 1px;
 }
-.search-input {
-  
+.loading {
+  text-align: center;
 }
 </style>
