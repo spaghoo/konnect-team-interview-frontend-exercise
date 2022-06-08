@@ -88,8 +88,8 @@ export default defineComponent({
   setup() {
     // Import services from the composable
     const { services, loading } = useServices()
-
-    // Set the search string to a Vue ref
+    
+    //here are a few variables for managing pagination, and a few variables for handling search.
     
     const pageNumber = ref(1)
     const debouncedInput = ref('')
@@ -149,7 +149,7 @@ export default defineComponent({
         //trims to lowercase for case insensitive search
         var localSearchQuery = localSearchQuery.trim().toLowerCase();
         
-        
+        //this is what manages the pagination state to allow a user to return to their current page after a search
         if (this.justSearched) {
             this.storedPageNumber = this.pageNumber
             this.pageNumber = 1;
