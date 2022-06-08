@@ -5,7 +5,7 @@
 
 ####overall thoughts
 
-i found the UI to be fairly straight forward and it is reactive within reason. If there are any questions or clarifications needed feel free to reach out.
+i found the UI to be fairly straight forward and it is reactive within reason. If there are any questions or clarifications needed feel free to reach out. Thank you again for your consideration.
 
 ### Custom Components
 
