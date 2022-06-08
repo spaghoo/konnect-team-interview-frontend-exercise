@@ -1,5 +1,8 @@
 # Welcome
 
+
+## Submission Notes
+
 ## Goal
 
 Make this Vue 3 app as close to [this mock](https://www.figma.com/file/zeaWiePnc3OCe34I4oZbzN/Service-Card-List?node-id=0%3A1) as possible while utilizing best-practices, coding standards, and great code to improve the example codebase.
