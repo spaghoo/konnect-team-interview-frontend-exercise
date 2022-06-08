@@ -50,7 +50,7 @@
       <PaginationNumbers
         :currentPage="pageNumber"
         :maxPages="getMaxPages"
-        :itemsPerPage="12"
+        :itemsPerPage="this.itemsPerPage"
         :totalItems="services.length -1" />
       <div v-if="pageNumber >= getMaxPages">
         <button
@@ -89,13 +89,16 @@ export default defineComponent({
     
     const pageNumber = ref(1)
     const debouncedInput = ref('')
-    const timeout = null
+    const passedTimeout = 300
+    const itemsPerPage = 12
 
     return {
       services,
       loading,
       pageNumber,
       debouncedInput,
+      passedTimeout,
+      itemsPerPage
     }
   },
   components: {
@@ -120,7 +123,7 @@ export default defineComponent({
         if (this.timeout) clearTimeout(this.timeout)
           this.timeout = setTimeout(() => {
             this.debouncedInput = passedValue
-          }, 300)
+          }, this.passedTimeout)
         }
     },
     searchServiceResults: function () {
@@ -131,25 +134,35 @@ export default defineComponent({
         //doesnt run the search if nothing is in the search bar or if only one letter is
         
         if(!localSearchQuery || localSearchQuery.length < 2){
-          return names.slice(this.getCurrentSlice-12,this.getCurrentSlice);
+          return names.slice(this.getCurrentSlice-this.itemsPerPage,this.getCurrentSlice);
         }
         //trims to lowercase for case insensitive search
         var localSearchQuery = localSearchQuery.trim().toLowerCase();
         
         names = names.filter(function(item){
           if(item.name.toLowerCase().indexOf(localSearchQuery) !== -1){
+            console.log("searching")
             return item
           }
         })
         
-        return names.slice(this.getCurrentSlice-12,this.getCurrentSlice)
+        console.log(names.length)
+        
+        if (names.length <= 12) {
+            return names
+        }
+        
+        return names.slice(this.getCurrentSlice-this.itemsPerPage,this.getCurrentSlice);
     },
     getCurrentSlice: function () {
-        return this.pageNumber * 12;
+        return this.pageNumber * this.itemsPerPage;
     },
     getMaxPages: function () {
-      
-        let maxNum = this.services.length / 12
+        if (this.debouncedInput.length > 0) {
+            let maxNum = this.searchServiceResults.length / this.itemsPerPage
+            return Math.ceil(maxNum)
+        }
+        let maxNum = this.services.length / this.itemsPerPage
         return Math.ceil(maxNum)
     }
   },

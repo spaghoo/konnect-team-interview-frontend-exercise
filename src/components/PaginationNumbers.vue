@@ -26,13 +26,13 @@ export default defineComponent({
 	},
 	computed: {
 		firstItemOnPage: function () {
-			var lowBound = this.currentPage * 12
-			lowBound = lowBound - 12
+			var lowBound = this.currentPage * this.itemsPerPage
+			lowBound = lowBound - this.itemsPerPage
 			return lowBound
 		},
 		lastItemOnPage: function () {
-			if (this.firstItemOnPage + 11 <= this.totalItems) {
-				return this.firstItemOnPage + 11
+			if (this.firstItemOnPage + (this.itemsPerPage - 1) <= this.totalItems) {
+				return this.firstItemOnPage + (this.itemsPerPage - 1)
 			}else {
 				return this.totalItems
 			}
