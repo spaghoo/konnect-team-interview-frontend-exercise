@@ -13,19 +13,19 @@
     </div>
     <div v-if="services.length != 0">
       <div v-if="searchServiceResults.length != 0">
-        <ul
-          class="catalog"
-        >
-          <li
-            v-for="service in searchServiceResults"
-            :key="service.id"
-            class="service"
+          <ul
+            class="catalog"
           >
-            <div>
-              <ServiceCard :name="service.name" :description="service.description" :versions="service.versions.length" />
-            </div>
-          </li>
-        </ul>
+            <li
+              v-for="service in paginatedResults"
+              :key="service.id"
+              class="service"
+            >
+              <div>
+                <ServiceCard :name="service.name" :description="service.description" :versions="service.versions.length" />
+              </div>
+            </li>
+          </ul>
       </div>
       <div v-else>
         <h2 style="color: #0A2B66; text-align: center">NO RESULTS TO YOUR QUERY</h2>
@@ -50,8 +50,8 @@
       <PaginationNumbers
         :currentPage="pageNumber"
         :maxPages="getMaxPages"
-        :itemsPerPage="12"
-        :totalItems="services.length -1" />
+        :itemsPerPage="this.itemsPerPage"
+        :totalItems="searchServiceResults.length -1" />
       <div v-if="pageNumber >= getMaxPages">
         <button
         class="pagination-button"
@@ -89,13 +89,20 @@ export default defineComponent({
     
     const pageNumber = ref(1)
     const debouncedInput = ref('')
-    const timeout = null
+    const passedTimeout = 300
+    const itemsPerPage = 12
+    const storedPageNumber = ref(0)
+    const justSearched = ref(true)
 
     return {
       services,
       loading,
       pageNumber,
       debouncedInput,
+      passedTimeout,
+      itemsPerPage,
+      storedPageNumber,
+      justSearched
     }
   },
   components: {
@@ -107,8 +114,8 @@ export default defineComponent({
   },
   methods: {
     changePage(page) {
-      console.log(page)
       this.pageNumber = page;
+      console.log(this.pageNumber)
     },
   },
   computed: {
@@ -120,7 +127,7 @@ export default defineComponent({
         if (this.timeout) clearTimeout(this.timeout)
           this.timeout = setTimeout(() => {
             this.debouncedInput = passedValue
-          }, 300)
+          }, this.passedTimeout)
         }
     },
     searchServiceResults: function () {
@@ -131,10 +138,21 @@ export default defineComponent({
         //doesnt run the search if nothing is in the search bar or if only one letter is
         
         if(!localSearchQuery || localSearchQuery.length < 2){
-          return names.slice(this.getCurrentSlice-12,this.getCurrentSlice);
+          if (this.storedPageNumber != 0) {
+              this.justSearched = !this.justSearched
+              this.pageNumber = this.storedPageNumber
+          }
+          return names
         }
         //trims to lowercase for case insensitive search
         var localSearchQuery = localSearchQuery.trim().toLowerCase();
+        
+        
+        if (this.justSearched) {
+            this.storedPageNumber = this.pageNumber
+            this.pageNumber = 1;
+            this.justSearched = !this.justSearched
+        }
         
         names = names.filter(function(item){
           if(item.name.toLowerCase().indexOf(localSearchQuery) !== -1){
@@ -142,14 +160,25 @@ export default defineComponent({
           }
         })
         
-        return names.slice(this.getCurrentSlice-12,this.getCurrentSlice)
+        
+        if (names.length <= 12) {
+            return names
+        }
+        
+        return names
+    },
+    paginatedResults: function () {;
+      return this.searchServiceResults.slice(this.getCurrentSlice-this.itemsPerPage,this.getCurrentSlice);
     },
     getCurrentSlice: function () {
-        return this.pageNumber * 12;
+        return this.pageNumber * this.itemsPerPage;
     },
     getMaxPages: function () {
-      
-        let maxNum = this.services.length / 12
+        if (this.debouncedInput.length > 0) {
+            let maxNum = this.searchServiceResults.length / this.itemsPerPage
+            return Math.ceil(maxNum)
+        }
+        let maxNum = this.services.length / this.itemsPerPage
         return Math.ceil(maxNum)
     }
   },
